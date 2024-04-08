@@ -18,134 +18,141 @@ import java.util.Objects;
     "PMD.LocalVariableCouldBeFinal"
 })
 public class Armour extends Equippable {
-    /**
-     * Format used to generate a printable representation.
-     */
-    public static final String FMT_STR = String.join(
-        "",
-        "  Nme: %s%n",
-        "  Dur: %s%n",
-        "  Def: %d%n",
-        "  Mtl: %s%n",
-        "  Mdr: %s (Lvl %d)%n",
-        "  Emt: %s%n"
-    );
+  /**
+   * Format used to generate a printable representation.
+   */
+  public static final String FMT_STR = String.join(
+      "",
+      "  Nme: %s%n",
+      "  Dur: %s%n",
+      "  Def: %d%n",
+      "  Mtl: %s%n",
+      "  Mdr: %s (Lvl %d)%n",
+      "  Emt: %s%n");
 
-    /**
-     * The amount of damage that can be negated.
-     */
-    protected int defense;
+  /**
+   * The amount of damage that can be negated.
+   */
+  protected int defense;
 
-    /**
-     * Default to a armour with a defense of zero.
-     */
-    public Armour()
-    {
-        super();
+  /**
+   * Default to a armour with a defense of zero.
+   */
+  public Armour() {
+    super();
 
-        // Complete the remainder of this method
+    // Complete the remainder of this method
+    this.defense = 0;
+
+  }
+
+  /**
+   * Retrieve armour defense.
+   *
+   * @return total defense provided
+   */
+  public int getDefense() {
+    return this.defense;
+  }
+
+  /**
+   * Update defense.
+   *
+   * @param def replacement getDefense()
+   */
+  public void setDefense(int def) {
+    this.defense = def;
+  }
+
+  @Override
+  public int requiredNumberOfValues() {
+    // Replace this with the correct value
+    return 7;
+  }
+
+  @Override
+  public void fromTokens(String[] tokens) {
+    this.setName(tokens[0]);
+
+    this.setMaterial(tokens[1]);
+    this.setDurability(Integer.parseInt(tokens[2]));
+    this.setDefense(Integer.parseInt(tokens[3]));
+    this.setModifier(tokens[4]);
+    this.setModifierLevel(Integer.parseInt(tokens[5]));
+    this.setElement(tokens[6]);
+  }
+
+  /**
+   * Clone--i.e., copy--this Armour.
+   */
+  @Override
+  public Item clone() {
+    Armour cpy = new Armour();
+
+    // Complete the remainder of this method
+    cpy.setName(this.getName());
+    cpy.setDefense(this.getDefense());
+    cpy.setDurability(this.getDurability());
+    cpy.setMaterial(this.getMaterial());
+    cpy.setModifier(this.getModifier());
+    cpy.setModifierLevel(this.getModifierLevel());
+    cpy.setElement(this.getElement());
+
+    return cpy;
+  }
+
+  /**
+   * Check for logical equivalence--based on name, material, modifier,
+   * modifierLevel, element, and defense.
+   *
+   * @param rhs object for which a comparison is desired
+   */
+  @Override
+  public boolean equals(Object rhs) {
+    if (!(rhs instanceof Armour)) {
+      return false;
     }
 
-    /**
-     * Retrieve armour defense.
-     *
-     * @return total defense provided
-     */
-    public int getDefense()
-    {
-        return this.defense;
-    }
+    Armour rhsItem = (Armour) rhs;
 
-    /**
-     * Update defense.
-     *
-     * @param def replacement getDefense()
-     */
-    public void setDefense(int def)
-    {
-        this.defense = def;
-    }
+    // Complete the remainder of this method
+    return this.getName().equals(rhsItem.getName())
+        && this.getMaterial().equals(rhsItem.getMaterial())
+        && this.getModifier().equals(rhsItem.getModifier())
+        && this.getModifierLevel() == rhsItem.getModifierLevel()
+        && this.getElement().equals(rhsItem.getElement())
+        && this.getDefense() == rhsItem.getDefense();
+  }
 
-    @Override
-    public int requiredNumberOfValues()
-    {
-        // Replace this with the correct value
-        return -1;
-    }
+  /**
+   * Compute hashCode based on name, material, modifier, modifierLevel,
+   * element, and defense.
+   */
+  @Override
+  public int hashCode() {
+    // This **already completed** function is a hint... use it as a
+    // reference for the other two classes.
+    return Objects.hash(
+        this.getName(),
+        this.getMaterial(),
+        this.getModifier(),
+        this.getModifierLevel(),
+        this.getElement(),
+        this.getDefense());
+  }
 
-    @Override
-    public void fromTokens(String[] tokens)
-    {
-        this.setName(tokens[0]);
-
-        this.setMaterial(tokens[1]);
-        this.setDurability(Integer.parseInt(tokens[2]));
-
-        // Complete the remainder of this method
-    }
-
-    /**
-     * Clone--i.e., copy--this Armour.
-     */
-    @Override
-    public Item clone()
-    {
-        Armour cpy = new Armour();
-
-        // Complete the remainder of this method
-
-
-        return cpy;
-    }
-
-    /**
-     * Check for logical equivalence--based on name, material, modifier,
-     * modifierLevel, element, and defense.
-     *
-     * @param rhs object for which a comparison is desired
-     */
-    @Override
-    public boolean equals(Object rhs)
-    {
-        if (!(rhs instanceof Armour)) {
-            return false;
-        }
-
-        Armour rhsItem = (Armour) rhs;
-
-        // Complete the remainder of this method
-        return false;
-    }
-
-    /**
-     * Compute hashCode based on name, material, modifier, modifierLevel,
-     * element, and defense.
-     */
-    @Override
-    public int hashCode()
-    {
-        // This **already completed** function is a hint... use it as a
-        // reference for the other two classes.
-        return Objects.hash(
-            this.getName(),
-            this.getMaterial(),
-            this.getModifier(),
-            this.getModifierLevel(),
-            this.getElement(),
-            this.getDefense()
-        );
-    }
-
-    /**
-     * *Print* one Armour.
-     */
-    @Override
-    public String toString()
-    {
-        return "Use FMT_STR, accessors and String.format...";
-    }
+  /**
+   * *Print* one Armour.
+   */
+  @Override
+  public String toString() {
+    return String.format(FMT_STR,
+        super.getName(),
+        this.getDurability(),
+        this.getDefense(),
+        this.getMaterial(),
+        this.getModifier(),
+        this.getModifierLevel(),
+        this.getElement());
+  }
 }
-
-
-
-
